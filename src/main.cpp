@@ -1,6 +1,6 @@
 #include <Arduino.h>
-
-#include "ISR_encoder.h"
+#include "Config.h"
+#include "Devices.h"
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
     static uint32_t timer = micros();
     while(micros() - timer < Ts_us);
     timer = micros();
-    
+        
     ///////// SENSE /////////
     // Считывание датчиков
 
@@ -21,6 +21,7 @@ int main()
     // Расчет управляющих воздействий
 
     ///////// ACT /////////
+    leftMotor.drive(5);
 
   }
 }

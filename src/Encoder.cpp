@@ -1,17 +1,13 @@
 #include "Encoder.h"
 
-void Encoder::init(const uint8_t& _CLC_A_PIN, const uint8_t& _B_PIN, void (*_ISR)())
+void Encoder::init()
 {
-    CLC_A_PIN = _CLC_A_PIN;
-    B_PIN = _B_PIN;
-    ISR = _ISR;
-
-    pinMode(CLC_A_PIN, INPUT);
+    pinMode(CLK_A_PIN, INPUT);
     pinMode(B_PIN, INPUT);
 
     noInterrupts();
     attachInterrupt(
-        digitalPinToInterrupt(CLC_A_PIN),
+        digitalPinToInterrupt(CLK_A_PIN),
         ISR,
         CHANGE
     );
@@ -29,7 +25,6 @@ void Encoder::init(const uint8_t& _CLC_A_PIN, const uint8_t& _B_PIN, void (*_ISR
     interrupts();
 }
 
-
 void Encoder::tick()
 {
     noInterrupts();
@@ -37,17 +32,17 @@ void Encoder::tick()
     counter = 0;
     interrupts();
 
-    phi += counter_inc * TICK2RAD;
+    dphi = counter_inc * TICK2RAD;
+    phi += dphi;
 }
 
-volatile int Encoder::GetCounter(){
-    return counter;
-}
+void Encoder::isr_callback()
+    {
+        const uint8_t B = digitalRead(B_PIN);
+        const uint8_t CLK_A = digitalRead(CLK_A_PIN);
+        const uint8_t A = CLK_A ^ B;
+        const uint8_t enc = (A << 1) | B;
 
-void Encoder::SetCounter(const int _counter){
-    counter = _counter;
-}
-
-int8_t Encoder::GetEtt(const uint8_t i, const uint8_t j){
-    return ett[i][j];
-}
+        counter += ett[enc_old][enc];
+        enc_old = enc;
+    }
