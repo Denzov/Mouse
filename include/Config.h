@@ -31,4 +31,4 @@
 
 #define V_BATT (5.0)
 
-#endif 
+#endif // !_CONFIG_H_

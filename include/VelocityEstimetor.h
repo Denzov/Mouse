@@ -43,4 +43,4 @@ public:
 //     g_left_w = left_low_pass_filter(left_w_raw)
 // }
 
-#endif   
+#endif // !_VELOCITY_ESTIMATOR_H_

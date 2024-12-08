@@ -56,4 +56,4 @@ void right_encoder_ISR()
     rightEncoder.isr_callback();
 }
 
-#endif 
+#endif // !_DEVICES_H_
