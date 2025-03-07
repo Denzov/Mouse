@@ -37,12 +37,12 @@ void Encoder::tick()
 }
 
 void Encoder::isr_callback()
-    {
-        const uint8_t B = digitalRead(B_PIN);
-        const uint8_t CLK_A = digitalRead(CLK_A_PIN);
-        const uint8_t A = CLK_A ^ B;
-        const uint8_t enc = (A << 1) | B;
+{
+    const uint8_t B = digitalRead(B_PIN);
+    const uint8_t CLK_A = digitalRead(CLK_A_PIN);
+    const uint8_t A = CLK_A ^ B;
+    const uint8_t enc = (A << 1) | B;
 
-        counter += ett[enc_old][enc];
-        enc_old = enc;
-    }
+    counter += ett[enc_old][enc];
+    enc_old = enc;
+}

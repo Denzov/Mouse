@@ -8,14 +8,17 @@ struct OdometryConnectionParams{
     Encoder* r_encoder;
 };
 
-class Odometry : OdometryConnectionParams{
+class Odometry : public OdometryConnectionParams{
 private:
-    float f_dS, r_dS, l_dS;
-    float dAngle;
+    float dS_r, dS_l, dS_f, dAngle;
 
     float x, y, angle;
 public:
-    Odometry(OdometryConnectionParams* ocp) : OdometryConnectionParams(* ocp){}
+    float &q_x = x; 
+    float &q_y = y;
+    float &q_angle = angle;
+
+    Odometry(OdometryConnectionParams *ocp) : OdometryConnectionParams(*ocp){}
     void tick();
 };
 

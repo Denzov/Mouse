@@ -3,9 +3,11 @@
 
 #include "Config.h"
 #include "Encoder.h"
+#include "VelocityEstimator.h"
 #include "Motor.h"
 #include "Odometry.h"
-
+#include "PiReg.h"
+#include "Servo.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -25,6 +27,18 @@ EncoderConnectionParams right_ecp {
     .ISR = right_encoder_ISR
 };
 Encoder rightEncoder(&right_ecp);
+
+VelocityEstimatorConnectionParams left_vecp {
+    .encoder = &leftEncoder
+};
+
+VelocityEstimator leftVelocityEstimator(&left_vecp);
+
+VelocityEstimatorConnectionParams right_vecp {
+    .encoder = &rightEncoder
+};
+
+VelocityEstimator rightVelocityEstimator(&right_vecp);
 
 OdometryConnectionParams ocp {
     .l_encoder = &leftEncoder,
@@ -55,5 +69,35 @@ void right_encoder_ISR()
 {
     rightEncoder.isr_callback();
 }
+
+PiRegConnectionParams left_w_prcp{
+    .Kp = W_KP,
+    .Ki = W_KI
+};
+
+PiReg left_w_PiReg(&left_w_prcp);
+
+PiRegConnectionParams right_w_prcp{
+    .Kp = W_KP,
+    .Ki = W_KI
+};
+
+PiReg right_w_PiReg(&right_w_prcp);
+
+ServoConnectionParams left_scp{
+    .w_PiReg = &left_w_PiReg,
+    .motor = &leftMotor,
+    .encoder = &leftEncoder
+};
+
+Servo leftServo(&left_scp);
+
+ServoConnectionParams right_scp{
+    .w_PiReg = &right_w_PiReg,
+    .motor = &rightMotor,
+    .encoder = &leftEncoder
+};
+
+Servo rightServo(&right_scp);
 
 #endif // !_DEVICES_H_

@@ -18,14 +18,14 @@ private:
     
     volatile int counter;
     volatile int enc_old = 0;
-    
+
     float phi = 0;
     float dphi = 0;
-
 public:
     const float& q_phi = phi;
     const float& q_dphi = dphi;
-    Encoder(EncoderConnectionParams* ecp) : EncoderConnectionParams(* ecp){}
+
+    Encoder(EncoderConnectionParams *ecp) : EncoderConnectionParams(*ecp){}
 
     void init();
     void tick();

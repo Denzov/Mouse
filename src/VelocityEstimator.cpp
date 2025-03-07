@@ -1,12 +1,7 @@
-#include "VelocityEstimetor.h"
+#include "VelocityEstimator.h"
 
-void VelocityEstimator::tick(float phi){
-    w_raw = (phi - phi_old) / Ts_s;
-    phi_old = phi;      
-
+void VelocityEstimator::tick(){
+    encoder->tick();
     
-}
-
-void VelocityEstimator::lowPassFilter(){
-
+    w = encoder->q_dphi / Ts_s;
 }
