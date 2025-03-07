@@ -22,7 +22,7 @@ void loop(){
   
   ///////// PLAN /////////
 
-  Serial.println(w_pi);
+  Serial.println(leftServo.q_cur_w);
   leftServo.tick();
 
   ///////// ACT /////////
