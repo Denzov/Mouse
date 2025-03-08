@@ -8,6 +8,7 @@
 #include "Odometry.h"
 #include "PiReg.h"
 #include "Servo.h"
+#include "Mixer.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -87,7 +88,7 @@ PiReg right_w_PiReg(&right_w_prcp);
 ServoConnectionParams left_scp{
     .w_PiReg = &left_w_PiReg,
     .motor = &leftMotor,
-    .encoder = &leftEncoder
+    .velocityEstimator = &leftVelocityEstimator
 };
 
 Servo leftServo(&left_scp);
@@ -95,9 +96,16 @@ Servo leftServo(&left_scp);
 ServoConnectionParams right_scp{
     .w_PiReg = &right_w_PiReg,
     .motor = &rightMotor,
-    .encoder = &leftEncoder
+    .velocityEstimator = &rightVelocityEstimator
 };
 
 Servo rightServo(&right_scp);
+
+MotionControlConnectionParams mccp{
+    .leftServo = &leftServo,
+    .rightServo = &rightServo
+};
+
+Mixer mixer(&mccp);
 
 #endif // !_DEVICES_H_

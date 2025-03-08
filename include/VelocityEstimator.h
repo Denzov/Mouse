@@ -20,6 +20,7 @@ public:
 
     VelocityEstimator(VelocityEstimatorConnectionParams *vecp) : VelocityEstimatorConnectionParams(*vecp){}
 
+    void init();    
     void tick();
 
 };

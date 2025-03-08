@@ -7,22 +7,20 @@ void Servo::SetW(float _w){
 
 void Servo::init(){
     w_PiReg->init();
-    encoder->init();
+    velocityEstimator->init();
     motor->init();
 }
 
 void Servo::act(){
-    motor->drive(static_cast<float>(w_PiReg->q_u));
-
+    motor->drive(w_PiReg->q_u);
 }
 
 void Servo::tick(){
-    encoder->tick();
+    velocityEstimator->tick();
     w_PiReg->tick();
 
-    cur_w = encoder->q_phi;
+    cur_w = velocityEstimator->q_w;
     w_PiReg->passCur(cur_w);
 
     act();
 }
-

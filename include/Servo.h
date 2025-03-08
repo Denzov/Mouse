@@ -8,7 +8,7 @@
 struct ServoConnectionParams{
     PiReg* w_PiReg;
     Motor* motor;
-    Encoder* encoder;
+    VelocityEstimator* velocityEstimator;
 };
 
 class Servo : public ServoConnectionParams{

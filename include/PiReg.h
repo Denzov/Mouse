@@ -22,10 +22,10 @@ private:
     float I = 0;
 
     float u = 0;
-    float constrain_u = 0; 
+    float constrain_u = 0;
 public:
     float &q_u = u;
-
+    
     PiReg(PiRegConnectionParams *prcp) : PiRegConnectionParams(*prcp){}     
 
     void init();

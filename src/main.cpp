@@ -5,26 +5,21 @@
 void setup()
 {
   //////// INIT /////////
-  leftServo.init();
-  leftServo.SetW(6.28);
+  mixer.init();
+  mixer.calcMotorsAngVel(0, 0.05);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop(){
-  ///////// TIMER /////////
   static uint32_t timer = micros();
   while(micros() - timer < Ts_us)
     ;
   timer = micros();
-      
-  ///////// SENSE /////////
-  
-  ///////// PLAN /////////
 
-  Serial.println(leftServo.q_cur_w);
-  leftServo.tick();
+  mixer.tick();
 
-  ///////// ACT /////////
-
+  Serial.print(left_w_PiReg.q_u);
+  Serial.print(" ");
+  Serial.println(right_w_PiReg.q_u);
 }
