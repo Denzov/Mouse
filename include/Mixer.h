@@ -1,3 +1,6 @@
+#ifndef _MIXER_H_
+#define _MIXER_H_
+
 #include "Servo.h"
 
 struct MotionControlConnectionParams{
@@ -24,8 +27,7 @@ private:
 public:
     Mixer(MotionControlConnectionParams* mccp) : MotionControlConnectionParams(*mccp){} 
 
-    void init();
-    void tick();
-
-    void calcMotorsAngVel(float _theta, float _forward_velocity);
+    void setMouseVelocity(float _theta, float _forward_velocity);
 };
+
+#endif // !_MIXER_H_

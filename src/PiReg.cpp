@@ -1,16 +1,12 @@
 #include "PiReg.h"
 
-// void PI_Reg::init(constexpr float KP){
-//     Kp = KP;
-//     Ki = KP / Ts_s;
-// }
-
 void PiReg::init(){
     return;
 }
 
 void PiReg::passSet(float& _set){
     set = _set;
+    
 }
 
 void PiReg::passCur(float& _cur){

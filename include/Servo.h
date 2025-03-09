@@ -19,7 +19,7 @@ private:
     void plan();
     void act();
 public:
-    float& q_cur_w = cur_w;
+    const float& q_cur_w = cur_w;
 
     Servo(ServoConnectionParams *scp) : ServoConnectionParams(*scp){}
     
@@ -28,7 +28,6 @@ public:
     void tick();
 
     void SetW(float _w);
-
 };
 
-#endif 
+#endif // !_SERVO_H_ 

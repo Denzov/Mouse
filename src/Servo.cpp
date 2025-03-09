@@ -7,8 +7,6 @@ void Servo::SetW(float _w){
 
 void Servo::init(){
     w_PiReg->init();
-    velocityEstimator->init();
-    motor->init();
 }
 
 void Servo::act(){
@@ -16,7 +14,6 @@ void Servo::act(){
 }
 
 void Servo::tick(){
-    velocityEstimator->tick();
     w_PiReg->tick();
 
     cur_w = velocityEstimator->q_w;
@@ -24,3 +21,4 @@ void Servo::tick(){
 
     act();
 }
+

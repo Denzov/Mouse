@@ -4,12 +4,12 @@
 
 void setup()
 {
-  //////// INIT /////////
-  mixer.init();
-  mixer.calcMotorsAngVel(0, 0.05);
+  DEVICES::INIT();
 
-  Serial.begin(115200);
+  // Serial.begin(115200);
 }
+
+float motor_time = 0;
 
 void loop(){
   static uint32_t timer = micros();
@@ -17,9 +17,6 @@ void loop(){
     ;
   timer = micros();
 
-  mixer.tick();
-
-  Serial.print(left_w_PiReg.q_u);
-  Serial.print(" ");
-  Serial.println(right_w_PiReg.q_u);
+  DEVICES::TICK(); 
+  
 }

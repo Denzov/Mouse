@@ -1,11 +1,9 @@
 #include "VelocityEstimator.h"
 
 void VelocityEstimator::init(){
-    encoder->init();
+    return;
 }
 
-void VelocityEstimator::tick(){
-    encoder->tick();
-    
+void VelocityEstimator::tick(){ 
     w = encoder->q_dphi / Ts_s;
 }

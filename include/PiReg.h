@@ -24,8 +24,8 @@ private:
     float u = 0;
     float constrain_u = 0;
 public:
-    float &q_u = u;
-    
+    const float &q_u = u;
+
     PiReg(PiRegConnectionParams *prcp) : PiRegConnectionParams(*prcp){}     
 
     void init();

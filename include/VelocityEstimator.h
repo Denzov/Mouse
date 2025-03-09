@@ -16,13 +16,12 @@ private:
     float phi; 
     float phi_old = 0;
 public:
-    float &q_w = w;
+    const float &q_w = w;
 
     VelocityEstimator(VelocityEstimatorConnectionParams *vecp) : VelocityEstimatorConnectionParams(*vecp){}
 
     void init();    
     void tick();
-
 };
 
 

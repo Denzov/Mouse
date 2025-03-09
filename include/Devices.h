@@ -9,6 +9,7 @@
 #include "PiReg.h"
 #include "Servo.h"
 #include "Mixer.h"
+#include "CycloActions.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -28,6 +29,16 @@ EncoderConnectionParams right_ecp {
     .ISR = right_encoder_ISR
 };
 Encoder rightEncoder(&right_ecp);
+
+void left_encoder_ISR()
+{
+    leftEncoder.isr_callback();
+}
+
+void right_encoder_ISR()
+{
+    rightEncoder.isr_callback();
+}
 
 VelocityEstimatorConnectionParams left_vecp {
     .encoder = &leftEncoder
@@ -60,16 +71,6 @@ MotorConnectionParams right_mcp {
     .M_POLARITY = RIGHT_MOTOR_POLARITY
 };
 Motor rightMotor(&right_mcp);
-
-void left_encoder_ISR()
-{
-    leftEncoder.isr_callback();
-}
-
-void right_encoder_ISR()
-{
-    rightEncoder.isr_callback();
-}
 
 PiRegConnectionParams left_w_prcp{
     .Kp = W_KP,
@@ -107,5 +108,43 @@ MotionControlConnectionParams mccp{
 };
 
 Mixer mixer(&mccp);
+
+CycloWorkerConnectionParams cwcp{
+    .mixer = &mixer
+};
+
+CycloWorker cycloWorker(&cwcp);
+
+namespace DEVICES{
+    void INIT(){
+        leftEncoder.init();
+        rightEncoder.init();
+
+        leftMotor.init();
+        rightMotor.init();
+        
+        leftServo.init();
+        leftServo.init();
+
+        cycloWorker.addAction(IDLE);
+        cycloWorker.addAction(FWD);
+        cycloWorker.addAction(DELAY_5S);
+        cycloWorker.addAction(STOP);
+    }
+
+    void TICK(){
+        leftEncoder.tick();
+        rightEncoder.tick();
+
+        leftVelocityEstimator.tick();
+        rightVelocityEstimator.tick();
+
+        leftServo.tick();
+        rightServo.tick();
+
+        cycloWorker.doCyclogram();
+    }
+
+}
 
 #endif // !_DEVICES_H_
