@@ -127,9 +127,10 @@ namespace DEVICES{
         leftServo.init();
 
         cycloWorker.addAction(IDLE);
-        cycloWorker.addAction(FWD);
-        cycloWorker.addAction(DELAY_5S);
+        cycloWorker.addAction(DELAY_1S);
+        cycloWorker.addAction(SS90SL);
         cycloWorker.addAction(STOP);
+        cycloWorker.addAction(DELAY_5S);
     }
 
     void TICK(){
@@ -144,7 +145,6 @@ namespace DEVICES{
 
         cycloWorker.doCyclogram();
     }
-
 }
 
 #endif // !_DEVICES_H_

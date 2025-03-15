@@ -6,6 +6,9 @@ void PiReg::init(){
 
 void PiReg::passSet(float& _set){
     set = _set;
+    if(set == 0){
+        integrator = 0;
+    }
     
 }
 

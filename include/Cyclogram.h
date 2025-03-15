@@ -49,9 +49,7 @@ public:
 
     void addAction(CycloAction action);
 
-    void doBegin();
     void doCyclogram();
-
 };
 
 #endif // !_CYCLOGRAM_H_

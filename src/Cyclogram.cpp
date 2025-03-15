@@ -12,13 +12,6 @@ void CycloWorker::calc_time(){
     sensors.time = cur_time - last_time;
 }
 
-void CycloWorker::doBegin(){
-    calc_time();
-    
-    cycloProg[cyclo_counter](&motion_states, &sensors);
-    mixer->setMouseVelocity(motion_states.theta_i0, motion_states.v_f0);
-}
-
 void CycloWorker::doCyclogram(){
     calc_time();
 

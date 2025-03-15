@@ -21,9 +21,12 @@ void Mixer::set_forward_velocity(float& _forward_velocity){
 }
 
 void Mixer::setMouseVelocity(float _theta, float _forward_velocity)
-{
-    set_theta(_theta);
-    set_forward_velocity(_forward_velocity);
+{   
+    theta = _theta;
+    forward_velocity = _forward_velocity;
+
+    calc_angular_movement();
+    calc_forward_movement();
 
     w_left_motor = rad_forward_velocity - HALF * rad_theta;
     w_right_motor = rad_forward_velocity + HALF * rad_theta;

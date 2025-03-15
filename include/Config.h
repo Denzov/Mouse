@@ -35,7 +35,7 @@
 /*===MOTOR PINS END===*/
 
 #define HALF 0.5f
-#define ROBOT_WIDTH 0.07f
+#define ROBOT_WIDTH 0.0825f
 
 /*===POWER BEGIN===*/
 #define V_BATT 5.f
@@ -44,7 +44,7 @@
 /*===POWER END===*/
 
 /*===W MOTOT PIREG BEGIN===*/
-#define W_KP 0.15f
+#define W_KP 0.12f
 #define W_KI (W_KP / 0.21f) 
 /*===W MOTOT PIREG END===*/
 
@@ -52,4 +52,11 @@
 #define FORWARD_SPEED 0.18
 #define CELL_SIZE 0.18
 /*===CYCLOGRAM END===*/
+
+/*===MAZE BEGIN==*/
+#define MAZE_LENGTH 11
+#define MAZE_MEM_SIZE (((MAZE_LENGTH + MAZE_LENGTH) + MAZE_LENGTH*MAZE_LENGTH))
+
+/*===MAZE BEGIN==*/
+
 #endif // !_CONFIG_H_

@@ -2,6 +2,8 @@
 #include "Config.h"
 #include "Devices.h"
 
+#include "Maze.h"
+
 void setup()
 {
   DEVICES::INIT();
