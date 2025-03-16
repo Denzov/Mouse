@@ -16,7 +16,7 @@ void Servo::act(){
 void Servo::tick(){
     w_PiReg->tick();
 
-    cur_w = velocityEstimator->q_w;
+    cur_w = velocityEstimator->GetW();
     w_PiReg->passCur(cur_w);
 
     act();

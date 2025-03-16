@@ -46,3 +46,11 @@ void Encoder::isr_callback()
     counter += ett[enc_old][enc];
     enc_old = enc;
 }
+
+float Encoder::GetPhi() const{
+    return phi;
+}
+
+float Encoder::GetDPhi() const{
+    return dphi;
+}

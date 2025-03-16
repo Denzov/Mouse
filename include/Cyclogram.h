@@ -40,6 +40,7 @@ private:
     MotionStates motion_states;
 
     void calc_time();
+    
 public:
     CycloWorker(CycloWorkerConnectionParams* cwcp) : CycloWorkerConnectionParams(*cwcp), 
                     sensors({       .time = 0}),

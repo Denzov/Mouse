@@ -14,9 +14,6 @@ private:
 
     float x, y, angle;
 public:
-    const float &q_x = x; 
-    const float &q_y = y;
-    const float &q_angle = angle;
 
     Odometry(OdometryConnectionParams *ocp) : OdometryConnectionParams(*ocp){}
     void tick();

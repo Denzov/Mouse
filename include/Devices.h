@@ -10,6 +10,7 @@
 #include "Servo.h"
 #include "Mixer.h"
 #include "CycloActions.h"
+#include "Maze.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -115,8 +116,12 @@ CycloWorkerConnectionParams cwcp{
 
 CycloWorker cycloWorker(&cwcp);
 
+Maze maze;
+
 namespace DEVICES{
     void INIT(){
+        Serial.begin(115200);
+
         leftEncoder.init();
         rightEncoder.init();
 
@@ -126,11 +131,11 @@ namespace DEVICES{
         leftServo.init();
         leftServo.init();
 
-        cycloWorker.addAction(IDLE);
-        cycloWorker.addAction(DELAY_1S);
-        cycloWorker.addAction(SS90SL);
-        cycloWorker.addAction(STOP);
-        cycloWorker.addAction(DELAY_5S);
+        // cycloWorker.addAction(IDLE);
+        // cycloWorker.addAction(DELAY_1S);
+        // cycloWorker.addAction(SS90SL);
+        // cycloWorker.addAction(STOP);
+        // cycloWorker.addAction(DELAY_5S);
     }
 
     void TICK(){

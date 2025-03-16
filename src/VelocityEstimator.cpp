@@ -5,5 +5,9 @@ void VelocityEstimator::init(){
 }
 
 void VelocityEstimator::tick(){ 
-    w = encoder->q_dphi / Ts_s;
+    w = encoder->GetDPhi() / Ts_s;
+}
+
+float VelocityEstimator::GetW(){
+    return w;
 }

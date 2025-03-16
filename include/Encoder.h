@@ -21,16 +21,17 @@ private:
 
     float phi = 0;
     float dphi = 0;
-public:
-    const float& q_phi = phi;
-    const float& q_dphi = dphi;
 
+public:
     Encoder(EncoderConnectionParams *ecp) : EncoderConnectionParams(*ecp){}
 
     void init();
     void tick();
     
     void isr_callback();
+
+    float GetPhi() const;
+    float GetDPhi() const ;
 };
 
 #endif // !_ENCODER_H_
