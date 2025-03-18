@@ -9,7 +9,11 @@ void setup()
 
   maze.Init();
   
+  solver.MazeTestConfig();
+  
+  solver.SolveBfsMaze(2, 1, 4, 4);
   maze.Print();
+
 }
 
 float motor_time = 0;

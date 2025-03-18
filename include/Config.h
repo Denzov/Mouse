@@ -54,23 +54,22 @@
 /*===CYCLOGRAM END===*/
 
 /*===MAZE BEGIN==*/
-/* MY MAZE STRUCT
-for exapmle, let's take maze 3x3:
-        X - a x i s 
-      Y      === === ===
-      |     | 0 | 1 | 2 |
-      a  === === === ===
-      x | 3 | 4 | 5 | 6 |
-      i  === === === ===
-      s | 7 | 8 | 9 | 10|
-         === === === ===
-        | 11| 12| 13| 14|
-         === === === ===
-here 0, 1, 2, 3, 7, 11 cells are utility. important for west and north fronts
-total number of cells are 15, but informal numbers of cells are 9 (3x3)
-*/
+// MY MAZE STRUCT
+// for exapmle, let's take maze 3x3:
+//        X - a x i s 
+//      Y      === === ===
+//      |     | 0 | 1 | 2 |
+//      a  === === === ===
+//      x | 3 | 4 | 5 | 6 |
+//      i  === === === ===
+//      s | 7 | 8 | 9 | 10|
+//         === === === ===
+//        | 11| 12| 13| 14|
+//         === === === ===
+// here 0, 1, 2, 3, 7, 11 cells are utility. important for west and north fronts
+// total number of cells are 15, but informal numbers of cells are 9 (3x3)
 
-#define MAZE_SIDE_LENGTH 4
+#define MAZE_SIDE_LENGTH 5
 #define MAZE_SIDE_LENGTH_ADD_ONE (MAZE_SIDE_LENGTH + 1)
 #define MAZE_TOTAL_SIZE (MAZE_SIDE_LENGTH*2 + MAZE_SIDE_LENGTH*MAZE_SIDE_LENGTH)
 #define MAZE_MEM_SIZE (((MAZE_SIDE_LENGTH + MAZE_SIDE_LENGTH) + MAZE_SIDE_LENGTH*MAZE_SIDE_LENGTH))

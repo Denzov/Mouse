@@ -11,6 +11,7 @@
 #include "Mixer.h"
 #include "CycloActions.h"
 #include "Maze.h"
+#include "Solver.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -118,6 +119,8 @@ CycloWorker cycloWorker(&cwcp);
 
 Maze maze;
 
+Solver solver(&maze);
+
 namespace DEVICES{
     void INIT(){
         Serial.begin(115200);
@@ -136,6 +139,8 @@ namespace DEVICES{
         // cycloWorker.addAction(SS90SL);
         // cycloWorker.addAction(STOP);
         // cycloWorker.addAction(DELAY_5S);
+
+        maze.Init();
     }
 
     void TICK(){
