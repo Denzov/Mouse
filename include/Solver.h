@@ -9,7 +9,9 @@ private:
     Maze* _maze;
     Queue<uint8_t> _queue;   
 
-    CellDirectionStore _buf_cell_dir;   
+    DirectionStore _buf_cell_dir;   
+
+    
 public:
     Solver(Maze* maze) : _maze(maze){}
     
