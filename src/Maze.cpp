@@ -131,11 +131,58 @@ void Maze::UndefCell(const uint8_t x, const uint8_t y){
     buf_cell_ptr->is_def_cell_dir = DirectionState::UNDEF;
 }
 
-void Maze::PushBackPathDir(const Direction dir){
-    if(_path_ind + 2 < MAZE_PATH_SIZE){
+void Maze::PushBackDirPath(const Direction dir){
+    if(_path_ind + 1 < MAZE_PATH_SIZE){
         _cell_blocks[_path_ind++].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
         _cell_blocks[_path_ind++].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b1));
     }
+}
+
+void Maze::SetDirPath(const Direction dir, uint8_t ind){
+    if(ind < MAZE_PATH_SIZE){
+        _cell_blocks[ind*2].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
+        _cell_blocks[ind*2 + 1].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b1));
+    }
+}
+
+void Maze::GetDirPath(Direction& dir, uint8_t ind) const{
+    dir = static_cast<Direction>((_cell_blocks[ind*2].path_dir << 1) | _cell_blocks[ind*2 + 1].path_dir);
+}
+
+void Maze::ClearDirPath(){
+    _path_ind = 0;
+}
+
+uint8_t Maze::GetPathSize(){
+    return _path_ind / 2;
+}
+
+void Maze::PrintDirPath(){
+    for(uint8_t i = 0; i < _path_ind / 2; i ++){
+        _buf_path_direction_store = static_cast<Direction>((_cell_blocks[i*2].path_dir << 1) | _cell_blocks[i*2 + 1].path_dir);
+        
+        switch (_buf_path_direction_store)
+        {
+        case Direction::N:
+            Serial.print("N");   
+            break;
+
+        case Direction::E:
+            Serial.print("E");
+            break;
+
+        case Direction::S:
+            Serial.print("S");
+            break;
+        
+        case Direction::W:
+            Serial.print("W");
+            break;
+            
+        }
+        Serial.print(" ");
+    }
+    Serial.println();
 }
 
 void Maze::PrintCell(const uint8_t x, const uint8_t y){

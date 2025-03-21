@@ -9,13 +9,13 @@ void setup()
 
   maze.Init();
   
-  solver.MazeTestConfig();
+ solver.MazeTestConfig();
   
   maze.Init();
   
   maze.Print();
 
-  solver.SolveBfsMaze(0, 0, 9, 9);
+  solver.SolveBfsMaze(0, 0, 5, 5);
   maze.Print();
 }
 

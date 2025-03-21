@@ -11,7 +11,7 @@ private:
 
     DirectionStore _buf_cell_dir;   
 
-    
+    void calc_path(uint8_t ind_s, uint8_t ind_f);
 public:
     Solver(Maze* maze) : _maze(maze){}
     

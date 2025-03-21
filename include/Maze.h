@@ -87,6 +87,7 @@ private:
 
     DirectionStore _buf_direction_store;
 
+    Direction _buf_path_direction_store;
     uint8_t _path_ind = 0;
 
     void print_cell_north_wall(const uint8_t x, const uint8_t y) const;
@@ -94,7 +95,7 @@ private:
     void print_cell_south_wall(const uint8_t x, const uint8_t y) const;
     void print_cell_path(const uint8_t x, const uint8_t y);
     
-    public:
+public:
     void Init();
     
     void SetCell(const Cell set_cell, const uint8_t x, const uint8_t y);
@@ -105,9 +106,15 @@ private:
     void SetCellDir(const Direction direction, const uint8_t x, const uint8_t y);
     void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y);
 
-    void PushBackPathDir(const Direction dir);
-    void SetPathDir(const Direction dir, uint8_t ind);
-    void GetPathDir(Direction& dir, uint8_t ind) const;
+    void PushBackDirPath(const Direction dir);
+    
+    void SetDirPath(const Direction dir, uint8_t ind);
+    void GetDirPath(Direction& dir, uint8_t ind) const;
+
+    void ClearDirPath();
+    uint8_t GetPathSize();
+
+    void PrintDirPath();
 
     void PrintCell(const uint8_t x, const uint8_t y);
     void Print();

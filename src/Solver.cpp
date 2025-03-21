@@ -1,5 +1,37 @@
 #include "Solver.h"
 
+void Solver::calc_path(uint8_t ind_s, uint8_t ind_f){
+    uint8_t cur_cell_ind = ind_s;
+    uint8_t cur_x = cur_cell_ind % MAZE_SIDE_LENGTH;
+    uint8_t cur_y = cur_cell_ind / MAZE_SIDE_LENGTH;
+
+    while(cur_cell_ind != ind_f){
+        cur_x = cur_cell_ind % MAZE_SIDE_LENGTH;
+        cur_y = cur_cell_ind / MAZE_SIDE_LENGTH;
+
+        _maze->GetCellDir(_buf_cell_dir, cur_x, cur_y);  
+        _maze->PushBackDirPath(_buf_cell_dir.cell_dir);
+
+        switch (_buf_cell_dir.cell_dir)
+        {
+        case Direction::N:
+            cur_cell_ind -= MAZE_SIDE_LENGTH;
+            break;
+        case Direction::E:
+            cur_cell_ind++;
+            break;
+        case Direction::S:
+            cur_cell_ind += MAZE_SIDE_LENGTH;
+            break;
+        case Direction::W:
+            cur_cell_ind--;
+            break;
+        }
+    }
+
+    _maze->PrintDirPath();
+}
+
 void Solver::MazeTestConfig(){
     _maze->SetCell({WallState::LO, WallState::HI, WallState::LO, WallState::HI}, 0, 0);
     _maze->SetCell({WallState::LO, WallState::LO, WallState::HI, WallState::LO}, 2, 0);
@@ -120,4 +152,6 @@ void Solver::SolveBfsMaze(uint8_t x_s, uint8_t y_s, uint8_t x_f, uint8_t y_f){
     }
 
     _maze->UndefCell(x_f, y_f);
+
+    calc_path(ind_s, ind_f);
 }
