@@ -7,15 +7,14 @@ void setup()
   // DEVICES::INIT();
   Serial.begin(115200);
 
-  maze.Init();
-  
- solver.MazeTestConfig();
-  
-  maze.Init();
-  
+  maze.PrimaryFill();
   maze.Print();
+  
+  solver.MazeTestConfig();
+  
+  maze.PrimaryFill();
+  solver.SolveBfsMaze(0, 0, 10, 10);
 
-  solver.SolveBfsMaze(0, 0, 5, 5);
   maze.Print();
 }
 

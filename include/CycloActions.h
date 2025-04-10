@@ -45,8 +45,8 @@ CYCLOGRAM(FWD){
 }
 
 CYCLOGRAM(SS90SL){
-    ms->v_f0 = (HALF * PI * CELL_SIZE);
-    ms->theta_i0 = (PI * HALF); // pi/2 * 0.1
+    ms->v_f0 = HALF(PI * CELL_SIZE);
+    ms->theta_i0 = HALF(PI); // pi/2 * 0.1
 
     if(s->time > 1000){
         ms->is_completed = 1;

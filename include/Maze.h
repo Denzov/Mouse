@@ -54,16 +54,20 @@ struct RawCellStore{
     /* it may be both LO_PATH_DIR and HI_PATH_DIR. it depend by current element
     so, take maze 2x2 
     in string view (here it is cell_store): 0 1 2 3 4 5 6 7 8 
-    in matrix view:   0 1  
+    in my view:       0 1  
                     2 3 4
-                    5 6 7
-    in this way, 0th-element is LO_PATH_DIR, 1th-element is HI_PATH_DIR.
+                    5 6 7,
+
+    but we "see":     3 4
+                      6 7
+
+    in this way, 0th-element is HI_PATH_DIR, 1th-element is LO_PATH_DIR.
     but, 0th and 1th elements together are the full direction of the path
-    for example, LO_PATH_DIR are: 0, 2, 4, 6;
-                 HI_PATH_DIR are: 1, 3, 5, 7;
-          but full direction are: {0, 1}, {2, 3}, {4, 5}, {6, 7}
+    for example, HI_PATH_DIR are: 0, 2, 4, 6;
+                 LO_PATH_DIR are: 1, 3, 5, 7;
+          but full direction are: {0, 1}, {2, 3}, {4, 5}, {6, 7};
     
-    that are, (full struct) Direction = static_cast<Direction>((cell_store[1] << 1) | cell_store[0])
+    that are, (full struct) Direction dir = static_cast<Direction>((cell_store[0] << 1) | cell_store[1])
     */
 };
 
@@ -81,22 +85,8 @@ struct Cell{
 };
 
 class Maze{
-private:
-    RawCellStore _cell_blocks[MAZE_MEM_SIZE];      
-    RawCellStore* buf_cell_ptr = nullptr;
-
-    DirectionStore _buf_direction_store;
-
-    Direction _buf_path_direction_store;
-    uint8_t _path_ind = 0;
-
-    void print_cell_north_wall(const uint8_t x, const uint8_t y) const;
-    void print_cell_middle_walls(const uint8_t x, const uint8_t y) const;
-    void print_cell_south_wall(const uint8_t x, const uint8_t y) const;
-    void print_cell_path(const uint8_t x, const uint8_t y);
-    
 public:
-    void Init();
+    void PrimaryFill();
     
     void SetCell(const Cell set_cell, const uint8_t x, const uint8_t y);
     void UndefCell(const uint8_t x, const uint8_t y);
@@ -104,7 +94,7 @@ public:
     void GetCell(Cell& get_cell, const uint8_t x, const uint8_t y) const;
     
     void SetCellDir(const Direction direction, const uint8_t x, const uint8_t y);
-    void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y);
+    void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const;
 
     void PushBackDirPath(const Direction dir);
     
@@ -116,8 +106,24 @@ public:
 
     void PrintDirPath();
 
-    void PrintCell(const uint8_t x, const uint8_t y);
-    void Print();
+    void PrintCell(const uint8_t x, const uint8_t y) const;
+    void Print() const;
+
+private:
+    RawCellStore            _cell_blocks[MAZE_MEM_SIZE];      
+
+    mutable RawCellStore*   _buf_cell_ptr = nullptr;
+    mutable DirectionStore  _buf_direction_store;
+    mutable Direction       _buf_path_direction_store;
+
+    uint8_t                 _path_ind = 0;
+
+private:
+    void print_cell_north_wall(   const uint8_t x, const uint8_t y ) const;
+    void print_cell_middle_walls( const uint8_t x, const uint8_t y ) const;
+    void print_cell_south_wall(   const uint8_t x, const uint8_t y ) const;
+    void print_cell_path(         const uint8_t x, const uint8_t y ) const;
+
 };
 
 #endif // !_MAZE_H_

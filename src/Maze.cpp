@@ -30,7 +30,7 @@ void Maze::print_cell_south_wall(const uint8_t x, const uint8_t y) const{
     }
 }
 
-void Maze::print_cell_path(const uint8_t x, const uint8_t y){
+void Maze::print_cell_path(const uint8_t x, const uint8_t y) const{
     if(_buf_direction_store.is_def_cell_dir == DirectionState::DEF){
         switch (_buf_direction_store.cell_dir)
         {
@@ -84,7 +84,7 @@ void Maze::GetCell(Cell& get_cell, const uint8_t x, const uint8_t y) const{
     get_cell.south_wall = _cell_blocks[MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE].s_wall;
 }
 
-void Maze::Init(){
+void Maze::PrimaryFill(){
     for(uint16_t i = 0; i < MAZE_TOTAL_SIZE; i++){
         _cell_blocks[i].is_def_cell_dir = DirectionState::UNDEF;
     }
@@ -95,13 +95,13 @@ void Maze::Init(){
     }
 
     /*fill west wall fronts*/
-    for(uint16_t i = MAZE_SIDE_LENGTH; i <= MAZE_SIDE_LENGTH_ADD_ONE*MAZE_SIDE_LENGTH; i+=MAZE_SIDE_LENGTH_ADD_ONE){
+    for(uint16_t i = MAZE_SIDE_LENGTH; i <= MAZE_SIDE_LENGTH_ADD_ONE * MAZE_SIDE_LENGTH; i+=MAZE_SIDE_LENGTH_ADD_ONE){
         _cell_blocks[i].e_wall = WallState::HI;
     }
     
     /*fill east wall fronts*/
     for(uint16_t i = MAZE_SIDE_LENGTH_ADD_ONE + (MAZE_SIDE_LENGTH - 1); 
-        i <= (MAZE_SIDE_LENGTH_ADD_ONE + (MAZE_SIDE_LENGTH - 1) + (MAZE_SIDE_LENGTH - 1) * MAZE_SIDE_LENGTH_ADD_ONE); i += MAZE_SIDE_LENGTH_ADD_ONE){
+        i <= (MAZE_SIDE_LENGTH_ADD_ONE + (MAZE_SIDE_LENGTH) * MAZE_SIDE_LENGTH_ADD_ONE); i += MAZE_SIDE_LENGTH_ADD_ONE){
         _cell_blocks[i].e_wall = WallState::HI;   
     }
 
@@ -112,23 +112,22 @@ void Maze::Init(){
 }
 
 void Maze::SetCellDir(const Direction direction, const uint8_t x, const uint8_t y){
-    buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
+    _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
     
-    buf_cell_ptr->is_def_cell_dir = DirectionState::DEF;
-    buf_cell_ptr->cell_dir = direction;
+    _buf_cell_ptr->is_def_cell_dir = DirectionState::DEF;
+    _buf_cell_ptr->cell_dir = direction;
 }
 
-void Maze::GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y){
-    buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
+void Maze::GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const{
+    _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
 
-    direction_store.is_def_cell_dir = buf_cell_ptr->is_def_cell_dir;
-    direction_store.cell_dir = buf_cell_ptr->cell_dir;
+    direction_store.is_def_cell_dir = _buf_cell_ptr->is_def_cell_dir;
+    direction_store.cell_dir = _buf_cell_ptr->cell_dir;
 }
 
 void Maze::UndefCell(const uint8_t x, const uint8_t y){
-    buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
-
-    buf_cell_ptr->is_def_cell_dir = DirectionState::UNDEF;
+    _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
+    _buf_cell_ptr->is_def_cell_dir = DirectionState::UNDEF;
 }
 
 void Maze::PushBackDirPath(const Direction dir){
@@ -140,7 +139,7 @@ void Maze::PushBackDirPath(const Direction dir){
 
 void Maze::SetDirPath(const Direction dir, uint8_t ind){
     if(ind < MAZE_PATH_SIZE){
-        _cell_blocks[ind*2].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
+        _cell_blocks[ind*2].path_dir     = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
         _cell_blocks[ind*2 + 1].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b1));
     }
 }
@@ -185,7 +184,7 @@ void Maze::PrintDirPath(){
     Serial.println();
 }
 
-void Maze::PrintCell(const uint8_t x, const uint8_t y){
+void Maze::PrintCell(const uint8_t x, const uint8_t y) const{
     /*print north wall front*/
     Serial.print(ANGLE);
     if(_cell_blocks[x + y * MAZE_SIDE_LENGTH_ADD_ONE].s_wall == WallState::HI){
@@ -228,7 +227,7 @@ void Maze::PrintCell(const uint8_t x, const uint8_t y){
     Serial.println(ANGLE);
 }
 
-void Maze::Print(){
+void Maze::Print() const{
     for(uint16_t x = 0; x < MAZE_SIDE_LENGTH; x++){
         print_cell_north_wall(x, 0);
     }
