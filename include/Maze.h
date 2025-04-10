@@ -5,7 +5,7 @@
 #include "Config.h"
 
 #define HORIZ_WALL "==="
-#define VERTIC_WALL (" | ")
+#define VERTIC_WALL " | "
 
 #define BLANK_HORIZ_WALL "   "
 #define BLANK_VERTIC_WALL "   "
@@ -36,13 +36,13 @@ enum class Direction : uint8_t{
 };
 
 enum class DirectionState : uint8_t{
-    UNDEF,
+    UNDEF = 0,
     DEF
 };
 
 struct RawCellStore{
-    enum PathDirStore{
-        first, second
+    enum class PathDirStore : uint8_t{
+        first = 0, second
     };
 
     WallState s_wall : 2;
@@ -102,9 +102,9 @@ public:
     void GetDirPath(Direction& dir, uint8_t ind) const;
 
     void ClearDirPath();
-    uint8_t GetPathSize();
+    uint8_t GetPathSize() const;
 
-    void PrintDirPath();
+    void PrintDirPath() const;
 
     void PrintCell(const uint8_t x, const uint8_t y) const;
     void Print() const;

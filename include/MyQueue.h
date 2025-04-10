@@ -8,14 +8,6 @@
 
 template<typename T>
 class Queue {
-private:
-    T _storage[MAX_SIZE];
-    int8_t _begin;
-    int8_t _end;
-
-    bool _is_empty;
-    bool _is_full;
-
 public:
     Queue() {
         _begin = 0;
@@ -27,15 +19,11 @@ public:
 
     bool isEmpty()
     {
-        _is_empty = _begin == _end;
-
         return _is_empty;
     }
 
     bool isFull()
     {
-        _is_full = _begin == _end;
-
         return _is_full;
     }
 
@@ -47,6 +35,7 @@ public:
             
             _is_empty = 0;
         }
+        _is_full = _begin == _end;
 
         return isFull();
     }
@@ -58,8 +47,8 @@ public:
             _begin = (_begin + 1) % MAX_SIZE;
             
             _is_full = 0;
-
-            isEmpty();
+            
+            _is_empty = _begin == _end;
             return x;
         }
     
@@ -71,6 +60,14 @@ public:
         _begin = 0;
         _end = 0;
     }
+
+private:
+    T _storage[MAX_SIZE];
+    int8_t _begin;
+    int8_t _end;
+
+    bool _is_empty;
+    bool _is_full;
 };
 
 #endif // !_MY_QUEUE_H_
