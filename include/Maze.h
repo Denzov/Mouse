@@ -86,28 +86,28 @@ struct Cell{
 
 class Maze{
 public:
-    void PrimaryFill();
+    void PrimaryFill() noexcept;
     
-    void SetCell(const Cell set_cell, const uint8_t x, const uint8_t y);
-    void UndefCell(const uint8_t x, const uint8_t y);
+    void SetCell(const Cell set_cell, const uint8_t x, const uint8_t y) noexcept;
+    void UndefCell(const uint8_t x, const uint8_t y) noexcept;
 
-    void GetCell(Cell& get_cell, const uint8_t x, const uint8_t y) const;
+    void GetCell(Cell& get_cell, const uint8_t x, const uint8_t y) const noexcept;
     
-    void SetCellDir(const Direction direction, const uint8_t x, const uint8_t y);
-    void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const;
+    void SetCellDir(const Direction direction, const uint8_t x, const uint8_t y) noexcept;
+    void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const noexcept;
 
-    void PushBackDirPath(const Direction dir);
+    void PushBackDirPath(const Direction dir) noexcept;
     
-    void SetDirPath(const Direction dir, uint8_t ind);
-    void GetDirPath(Direction& dir, uint8_t ind) const;
+    void SetDirPath(const Direction dir, uint8_t ind) noexcept;
+    void GetDirPath(Direction& dir, uint8_t ind) const noexcept;
 
-    void ClearDirPath();
-    uint8_t GetPathSize() const;
+    void ClearDirPath() noexcept;
+    uint8_t GetPathSize() const noexcept;
 
-    void PrintDirPath() const;
+    void PrintDirPath() const noexcept;
 
-    void PrintCell(const uint8_t x, const uint8_t y) const;
-    void Print() const;
+    void PrintCell(const uint8_t x, const uint8_t y) const noexcept;
+    void Print() const noexcept;
 
 private:
     RawCellStore            _cell_blocks[MAZE_MEM_SIZE];      
@@ -119,10 +119,10 @@ private:
     uint8_t                 _path_ind = 0;
 
 private:
-    void print_cell_north_wall(   const uint8_t x, const uint8_t y ) const;
-    void print_cell_middle_walls( const uint8_t x, const uint8_t y ) const;
-    void print_cell_south_wall(   const uint8_t x, const uint8_t y ) const;
-    void print_cell_path(         const uint8_t x, const uint8_t y ) const;
+    void print_cell_north_wall(   const uint8_t x, const uint8_t y ) const noexcept;
+    void print_cell_middle_walls( const uint8_t x, const uint8_t y ) const noexcept;
+    void print_cell_south_wall(   const uint8_t x, const uint8_t y ) const noexcept;
+    void print_cell_path(         const uint8_t x, const uint8_t y ) const noexcept;
 
 };
 

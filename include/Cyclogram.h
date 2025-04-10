@@ -26,7 +26,7 @@ struct CycloWorkerConnectionParams{
 
 class CycloWorker : public CycloWorkerConnectionParams{
 private:
-    static constexpr uint8_t CYCLO_PROG_SIZE = 10;
+    static constexpr uint8_t CYCLO_PROG_SIZE = 25;
 
     CycloAction cycloProg[CYCLO_PROG_SIZE];  
 
