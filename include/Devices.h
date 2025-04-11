@@ -140,7 +140,7 @@ namespace DEVICES{
         // cycloWorker.addAction(STOP);
         // cycloWorker.addAction(DELAY_5S);
 
-        maze.PrimaryFill();
+        // maze.PrimaryFill();
     }
 
     void TICK(){

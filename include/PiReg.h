@@ -24,13 +24,12 @@ private:
     float u = 0;
     float constrain_u = 0;
 public:
-    const float &q_u = u;
-
     PiReg(PiRegConnectionParams *prcp) : PiRegConnectionParams(*prcp){}     
 
     void init();
     void passSet(float& _set);
     void passCur(float& _cur);  
+    float getU() const;
 
     void tick(); 
 };

@@ -1,6 +1,7 @@
 #ifndef _SOLVER_H_
 #define _SOLVER_H_
 
+#include "Cyclogram.h"
 #include "Maze.h"
 #include "MyQueue.h"
 

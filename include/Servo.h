@@ -19,8 +19,6 @@ private:
     void plan();
     void act();
 public:
-    const float& q_cur_w = cur_w;
-
     Servo(ServoConnectionParams *scp) : ServoConnectionParams(*scp){}
     
     void init();

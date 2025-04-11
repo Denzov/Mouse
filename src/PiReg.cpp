@@ -16,6 +16,10 @@ void PiReg::passCur(float& _cur){
     cur = _cur;
 }
 
+float PiReg::getU() const{
+    return u;
+}
+
 void PiReg::tick(){
     err = set - cur;
 

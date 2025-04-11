@@ -10,7 +10,7 @@ void Servo::init(){
 }
 
 void Servo::act(){
-    motor->drive(w_PiReg->q_u);
+    motor->drive(w_PiReg->getU());
 }
 
 void Servo::tick(){
