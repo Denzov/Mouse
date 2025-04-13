@@ -9,9 +9,10 @@
 #include "PiReg.h"
 #include "Servo.h"
 #include "Mixer.h"
-#include "CycloActions.h"
 #include "Maze.h"
 #include "Solver.h"
+#include "CycloWorker.h"
+#include "Robot.h"
 
 void left_encoder_ISR();
 void right_encoder_ISR();
@@ -121,10 +122,16 @@ Maze maze;
 
 Solver solver(&maze);
 
+RobotConnectionParams rcp{
+    ._cycloWorker = &cycloWorker,
+    ._solver = &solver,
+    ._Maze = &maze
+};
+
+Robot robot(&rcp);
+
 namespace DEVICES{
     void INIT(){
-        Serial.begin(115200);
-
         leftEncoder.init();
         rightEncoder.init();
 
@@ -133,14 +140,6 @@ namespace DEVICES{
         
         leftServo.init();
         leftServo.init();
-
-        // cycloWorker.addAction(IDLE);
-        // cycloWorker.addAction(DELAY_1S);
-        // cycloWorker.addAction(SS90SL);
-        // cycloWorker.addAction(STOP);
-        // cycloWorker.addAction(DELAY_5S);
-
-        // maze.PrimaryFill();
     }
 
     void TICK(){
@@ -154,6 +153,50 @@ namespace DEVICES{
         rightServo.tick();
 
         cycloWorker.doCyclogram();
+    }
+
+    namespace TEST{
+        void SET_SERIAL(){
+            Serial.begin(115200);
+        }
+
+        void BFS(){
+            SET_SERIAL();
+
+            maze.PrimaryFill();
+            maze.Print();
+            
+            solver.MazeTestConfig();
+            
+            maze.PrimaryFill();
+            solver.SolveBfsMaze(0, 0, 5, 5);
+            
+            maze.PrintDirPath();
+            maze.Print();
+        }
+    
+        void CYCLOGRAMS(){
+            SET_SERIAL();
+            
+            cycloWorker.addAction(SmartCycloAction_t::IDLE);
+            cycloWorker.addAction(SmartCycloAction_t::FWDF);
+            cycloWorker.addAction(SmartCycloAction_t::SS90SL);
+            cycloWorker.addAction(SmartCycloAction_t::SS90SR);
+            cycloWorker.addAction(SmartCycloAction_t::STOP);
+            cycloWorker.printCycloProgram();
+        }
+
+        void CONVERT_PATH_TO_CYCLOGRAMS(){
+            SET_SERIAL();
+
+            solver.MazeTestConfig();
+            solver.SolveBfsMaze(0, 0, 5, 5);
+            // maze.Print();
+            // maze.PrintDirPath();
+
+            robot.convertPathToCyclogram();
+            cycloWorker.printCycloProgram();
+        }
     }
 }
 

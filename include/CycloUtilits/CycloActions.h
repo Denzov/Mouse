@@ -1,9 +1,10 @@
 #ifndef _CYCLO_ACTIONS_H
 #define _CYCLO_ACTIONS_H
 
-#include "Cyclogram.h"
+#include "Config.h"
+#include "CycloStructs.h"
 
-#define CYCLOGRAM(name) void name(MotionStates* ms, Sensors* s)
+#define CYCLOGRAM(name) inline void name(MotionStates* ms, Sensors* s)
 
 CYCLOGRAM(STOP){
     ms->v_f0 = 0;
@@ -17,29 +18,20 @@ CYCLOGRAM(IDLE){
     ms->is_completed = 1;
 }
 
-CYCLOGRAM(DELAY_1S){
-    ms->v_f0 = 0;
-    ms->theta_i0 = 0;
-    
-    if(s->time > 1000){
-        ms->is_completed = 1;
-    }
-}
-
-CYCLOGRAM(DELAY_5S){
-    ms->v_f0 = 0;
-    ms->theta_i0 = 0;
-    
-    if(s->time > 5000){
-        ms->is_completed = 1;
-    }
-}
-
-CYCLOGRAM(FWD){
+CYCLOGRAM(FWDF){
     ms->v_f0 = FORWARD_SPEED;
     ms->theta_i0 = 0;
 
     if(s->time > 1000){
+        ms->is_completed = 1;
+    }
+}
+
+CYCLOGRAM(FWDH){
+    ms->v_f0 = FORWARD_SPEED;
+    ms->theta_i0 = 0;
+
+    if(s->time > 500){
         ms->is_completed = 1;
     }
 }

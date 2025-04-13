@@ -9,7 +9,7 @@ void Solver::calc_path(const uint8_t ind_s, const uint8_t ind_f){
         cur_y = cur_cell_ind / MAZE_SIDE_LENGTH;
 
         _Maze->GetCellDir(_buf_cell_dir, cur_x, cur_y);  
-        _Maze->PushBackDirPath(_buf_cell_dir.cell_dir);
+        _Maze->PushBackPathDir(_buf_cell_dir.cell_dir);
 
         switch (_buf_cell_dir.cell_dir)
         {
@@ -30,8 +30,6 @@ void Solver::calc_path(const uint8_t ind_s, const uint8_t ind_f){
             break;
         }
     }
-
-    _Maze->PrintDirPath();
 }
 
 void Solver::MazeTestConfig(){
@@ -82,11 +80,18 @@ void Solver::MazeTestConfig(){
     _Maze->SetCell({WallState::HI, WallState::LO, WallState::LO, WallState::HI}, 8, 8);
     _Maze->SetCell({WallState::LO, WallState::HI, WallState::LO, WallState::LO}, 1, 9);
     _Maze->SetCell({WallState::HI, WallState::LO, WallState::HI, WallState::HI}, 3, 9);
-    _Maze->SetCell({WallState::HI, WallState::LO, WallState::HI, WallState::LO}, 5, 9);
+    _Maze->SetCell({WallState::HI, WallState::LO, WallState::LO, WallState::LO}, 5, 9);
     _Maze->SetCell({WallState::HI, WallState::LO, WallState::LO, WallState::LO}, 7, 9);
     _Maze->SetCell({WallState::HI, WallState::HI, WallState::HI, WallState::LO}, 9, 9);
     _Maze->SetCell({WallState::HI, WallState::HI, WallState::LO, WallState::HI}, 0, 0);
-    _Maze->SetCell({WallState::LO, WallState::HI, WallState::LO, WallState::HI}, 1, 8);
+    _Maze->SetCell({WallState::LO, WallState::HI, WallState ::HI, WallState::LO}, 5, 10);
+    _Maze->SetCell({WallState::HI, WallState::HI, WallState::LO, WallState::LO}, 5, 9);
+    _Maze->SetCell({WallState::HI, WallState::LO, WallState::HI, WallState::LO}, 4, 9);
+    _Maze->SetCell({WallState::LO, WallState::HI, WallState::HI, WallState::LO}, 1, 9);
+    _Maze->SetCell({WallState::LO, WallState::LO, WallState::HI, WallState::LO}, 8, 9);
+    _Maze->SetCell({WallState::LO, WallState::LO, WallState::HI, WallState::LO}, 7, 9);
+
+    _Maze->PrimaryFill();
 }
 
 void Solver::SolveBfsMaze(const uint8_t x_s, const uint8_t y_s, const uint8_t x_f, const uint8_t y_f){
@@ -113,7 +118,7 @@ void Solver::SolveBfsMaze(const uint8_t x_s, const uint8_t y_s, const uint8_t x_
             
             if(_buf_cell_dir.is_def_cell_dir != DirectionState::DEF){
                 _Maze->SetCellDir(Direction::S, cur_x, cur_y - 1);
-                _queue.pushBack(cur_cell_ind - MAZE_SIDE_LENGTH); // cur_y++
+                _queue.pushBack(cur_cell_ind - MAZE_SIDE_LENGTH); // cur_y--
             }
         }
 
@@ -131,7 +136,7 @@ void Solver::SolveBfsMaze(const uint8_t x_s, const uint8_t y_s, const uint8_t x_
 
             if(_buf_cell_dir.is_def_cell_dir != DirectionState::DEF){
                 _Maze->SetCellDir(Direction::N, cur_x, cur_y + 1);
-                _queue.pushBack(cur_cell_ind + MAZE_SIDE_LENGTH); // cur_y--
+                _queue.pushBack(cur_cell_ind + MAZE_SIDE_LENGTH); // cur_y++
             }
         }
 

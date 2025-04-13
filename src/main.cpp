@@ -4,26 +4,18 @@
 
 void setup()
 {
-  // DEVICES::INIT();
-  Serial.begin(115200);
-
-  maze.PrimaryFill();
-  maze.Print();
-  
-  solver.MazeTestConfig();
-  
-  maze.PrimaryFill();
-  solver.SolveBfsMaze(0, 0, 10, 10);
-
-  maze.Print();
+    // DEVICES::INIT();
+    // DEVICES::TEST::CYCLOGRAMS();
+    // DEVICES::TEST::BFS();
+    DEVICES::TEST::CONVERT_PATH_TO_CYCLOGRAMS();
 }
 
 float motor_time = 0;
 
 void loop(){
-  // static uint32_t timer = micros();
-  // while(micros() - timer < Ts_us)
-  //   ;
-  // timer = micros();
-  // DEVICES::TICK(); 
+    // static uint32_t timer = micros();
+    // while(micros() - timer < Ts_us)
+    //   ;
+    // timer = micros();
+    // DEVICES::TICK(); 
 }

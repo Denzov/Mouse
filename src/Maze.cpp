@@ -119,7 +119,7 @@ void Maze::SetCellDir(const Direction direction, const uint8_t x, const uint8_t 
 }
 
 void Maze::GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const{
-    _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
+    _buf_cell_ptr = const_cast<RawCellStore*>(_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
 
     direction_store.is_def_cell_dir = _buf_cell_ptr->is_def_cell_dir;
     direction_store.cell_dir = _buf_cell_ptr->cell_dir;
@@ -130,27 +130,34 @@ void Maze::UndefCell(const uint8_t x, const uint8_t y){
     _buf_cell_ptr->is_def_cell_dir = DirectionState::UNDEF;
 }
 
-void Maze::PushBackDirPath(const Direction dir){
+void Maze::PushBackPathDir(const Direction dir){
     if(_path_ind + 1 < MAZE_PATH_SIZE){
         _cell_blocks[_path_ind++].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
         _cell_blocks[_path_ind++].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b1));
     }
 }
 
-void Maze::SetDirPath(const Direction dir, uint8_t ind){
+void Maze::SetPathDir(const Direction dir, uint8_t ind){
     if(ind < MAZE_PATH_SIZE){
         _cell_blocks[ind*2].path_dir     = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b10) >> 1);
         _cell_blocks[ind*2 + 1].path_dir = static_cast<RawCellStore::PathDirStore>((static_cast<uint8_t>(dir) & 0b1));
     }
 }
 
-void Maze::GetDirPath(Direction& dir, uint8_t ind) const{
+void Maze::GetPathDir(Direction& dir, uint8_t ind) const{
     dir = static_cast<Direction>(
          (static_cast<uint8_t>(_cell_blocks[ind*2].path_dir) << 1) | 
           static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
 }
 
-void Maze::ClearDirPath(){
+Direction Maze::GetPathDir(uint8_t ind) const{
+    _buf_path_direction_store = static_cast<Direction>(
+        (static_cast<uint8_t>(_cell_blocks[ind*2].path_dir) << 1) | 
+         static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
+    return _buf_path_direction_store;
+}
+
+void Maze::ClearPath(){
     _path_ind = 0;
 }
 
@@ -159,11 +166,13 @@ uint8_t Maze::GetPathSize() const{
 }
 
 void Maze::PrintDirPath() const{
+    Serial.print("path: ");   
+    
     for(uint8_t i = 0; i < _path_ind / 2; i ++){
         _buf_path_direction_store = static_cast<Direction>(
                                    (static_cast<uint8_t>(_cell_blocks[i * 2].path_dir) << 1) |
                                     static_cast<uint8_t>(_cell_blocks[i * 2 + 1].path_dir));
-        
+              
         switch (_buf_path_direction_store)
         {
         case Direction::N:

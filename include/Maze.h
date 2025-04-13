@@ -96,12 +96,13 @@ public:
     void SetCellDir(const Direction direction, const uint8_t x, const uint8_t y) noexcept;
     void GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const noexcept;
 
-    void PushBackDirPath(const Direction dir) noexcept;
+    void PushBackPathDir(const Direction dir) noexcept;
     
-    void SetDirPath(const Direction dir, uint8_t ind) noexcept;
-    void GetDirPath(Direction& dir, uint8_t ind) const noexcept;
+    void SetPathDir(const Direction dir, uint8_t ind) noexcept;
+    void GetPathDir(Direction& dir, uint8_t ind) const noexcept;
+    Direction GetPathDir(uint8_t ind) const noexcept;
 
-    void ClearDirPath() noexcept;
+    void ClearPath() noexcept;
     uint8_t GetPathSize() const noexcept;
 
     void PrintDirPath() const noexcept;
@@ -110,20 +111,19 @@ public:
     void Print() const noexcept;
 
 private:
-    RawCellStore            _cell_blocks[MAZE_MEM_SIZE];      
-
-    mutable RawCellStore*   _buf_cell_ptr = nullptr;
-    mutable DirectionStore  _buf_direction_store;
-    mutable Direction       _buf_path_direction_store;
-
-    uint8_t                 _path_ind = 0;
-
-private:
     void print_cell_north_wall(   const uint8_t x, const uint8_t y ) const noexcept;
     void print_cell_middle_walls( const uint8_t x, const uint8_t y ) const noexcept;
     void print_cell_south_wall(   const uint8_t x, const uint8_t y ) const noexcept;
     void print_cell_path(         const uint8_t x, const uint8_t y ) const noexcept;
 
+private:
+    RawCellStore            _cell_blocks[MAZE_MEM_SIZE];      
+    
+    mutable RawCellStore*   _buf_cell_ptr = nullptr;
+    mutable DirectionStore  _buf_direction_store;
+    mutable Direction       _buf_path_direction_store;
+
+    uint8_t                 _path_ind = 0;
 };
 
 #endif // !_MAZE_H_
