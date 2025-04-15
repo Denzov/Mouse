@@ -1,5 +1,9 @@
 #include "Maze.h"
 
+bool Maze::cell_request_is_out_of_range_cell_blocks(const uint8_t& x, const uint8_t& y) const{
+    return x >= MAZE_SIDE_LENGTH || y >= MAZE_SIDE_LENGTH;
+}
+
 void Maze::print_cell_north_wall(const uint8_t x, const uint8_t y) const{
     Serial.print(ANGLE);
     if(_cell_blocks[x + y * (MAZE_SIDE_LENGTH_ADD_ONE)].s_wall == WallState::HI){
@@ -57,6 +61,8 @@ void Maze::print_cell_path(const uint8_t x, const uint8_t y) const{
 }
 
 void Maze::SetCell(const Cell set_cell, const uint8_t x, const uint8_t y){
+    if(cell_request_is_out_of_range_cell_blocks(x, y)) return;
+
     if(set_cell.north_wall == WallState::HI){
         _cell_blocks[x + y * MAZE_SIDE_LENGTH_ADD_ONE].s_wall = set_cell.north_wall;
     }
@@ -75,6 +81,8 @@ void Maze::SetCell(const Cell set_cell, const uint8_t x, const uint8_t y){
 }
 
 void Maze::GetCell(Cell& get_cell, const uint8_t x, const uint8_t y) const{
+    if(cell_request_is_out_of_range_cell_blocks(x, y)) return;
+
     get_cell.north_wall = _cell_blocks[x + y * MAZE_SIDE_LENGTH_ADD_ONE].s_wall;
 
     get_cell.west_wall = _cell_blocks[MAZE_SIDE_LENGTH + x + y * MAZE_SIDE_LENGTH_ADD_ONE].e_wall;
@@ -112,6 +120,8 @@ void Maze::PrimaryFill(){
 }
 
 void Maze::SetCellDir(const Direction direction, const uint8_t x, const uint8_t y){
+    if(cell_request_is_out_of_range_cell_blocks(x, y)) return;
+
     _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
     
     _buf_cell_ptr->is_def_cell_dir = DirectionState::DEF;
@@ -119,6 +129,8 @@ void Maze::SetCellDir(const Direction direction, const uint8_t x, const uint8_t 
 }
 
 void Maze::GetCellDir(DirectionStore& direction_store, const uint8_t x, const uint8_t y) const{
+    if(cell_request_is_out_of_range_cell_blocks(x, y)) return;
+
     _buf_cell_ptr = const_cast<RawCellStore*>(_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
 
     direction_store.is_def_cell_dir = _buf_cell_ptr->is_def_cell_dir;
@@ -126,6 +138,8 @@ void Maze::GetCellDir(DirectionStore& direction_store, const uint8_t x, const ui
 }
 
 void Maze::UndefCell(const uint8_t x, const uint8_t y){
+    if(cell_request_is_out_of_range_cell_blocks(x, y)) return;
+
     _buf_cell_ptr = (_cell_blocks + MAZE_SIDE_LENGTH_ADD_ONE + x + y * MAZE_SIDE_LENGTH_ADD_ONE);
     _buf_cell_ptr->is_def_cell_dir = DirectionState::UNDEF;
 }
@@ -145,15 +159,19 @@ void Maze::SetPathDir(const Direction dir, uint8_t ind){
 }
 
 void Maze::GetPathDir(Direction& dir, uint8_t ind) const{
-    dir = static_cast<Direction>(
-         (static_cast<uint8_t>(_cell_blocks[ind*2].path_dir) << 1) | 
-          static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
+    if(ind < MAZE_PATH_SIZE){
+        dir = static_cast<Direction>(
+            (static_cast<uint8_t>(_cell_blocks[ind*2].path_dir) << 1) | 
+             static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
+    }
 }
 
 Direction Maze::GetPathDir(uint8_t ind) const{
+    if(ind >= MAZE_PATH_SIZE) return {};
+    
     _buf_path_direction_store = static_cast<Direction>(
         (static_cast<uint8_t>(_cell_blocks[ind*2].path_dir) << 1) | 
-         static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
+        static_cast<uint8_t>(_cell_blocks[ind*2 + 1].path_dir));
     return _buf_path_direction_store;
 }
 

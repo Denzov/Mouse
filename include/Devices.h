@@ -191,9 +191,11 @@ namespace DEVICES{
 
             solver.MazeTestConfig();
             solver.SolveBfsMaze(0, 0, 5, 5);
+            
             // maze.Print();
             // maze.PrintDirPath();
 
+            
             robot.convertPathToCyclogram();
             cycloWorker.printCycloProgram();
         }

@@ -6,8 +6,8 @@ void setup()
 {
     // DEVICES::INIT();
     // DEVICES::TEST::CYCLOGRAMS();
-    // DEVICES::TEST::BFS();
-    DEVICES::TEST::CONVERT_PATH_TO_CYCLOGRAMS();
+    DEVICES::TEST::BFS();
+    // DEVICES::TEST::CONVERT_PATH_TO_CYCLOGRAMS();
 }
 
 float motor_time = 0;

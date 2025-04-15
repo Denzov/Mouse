@@ -14,14 +14,14 @@ enum class SmartCycloAction_t : uint8_t{
     CYCLO_ACTION_SIZE
 };
 
-// constexpr char* Str_SmartCyclogramAction[]{
-//     "STOP",
-//     "IDLE",
-//     "FWDF",
-//     "FWDH",
-//     "SS90SL",
-//     "SS90SR"
-// };
+constexpr char* Str_SmartCyclogramAction[]{
+    "STOP",
+    "IDLE",
+    "FWDF",
+    "FWDH",
+    "SS90SL",
+    "SS90SR"
+};
 
 enum class PrimitiveCycloAction_t : uint8_t{
     FORWARD = 0,

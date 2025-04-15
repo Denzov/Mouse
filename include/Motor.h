@@ -9,7 +9,7 @@ struct MotorConnectionParams{
         DIR, 
         PWM,
         M_POLARITY;
-};
+
 
 class Motor : public MotorConnectionParams{
 public:

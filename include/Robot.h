@@ -16,10 +16,10 @@ public:
     Robot(RobotConnectionParams* rcp) :
         RobotConnectionParams(*rcp){}
 
-    void calcSubjCycloAction(uint8_t ind);
+    void calcRelativeCycloAction(uint8_t ind);
     void convertPathToCyclogram();
 private:
-    PrimitiveCycloAction_t _buf_subj_cyclo_action;
+    PrimitiveCycloAction_t _buf_relative_cyclo_action;
 };
 
 #endif // !_ROBOT_H_
